@@ -2,6 +2,13 @@
 
 - [Running a Celestia Node](#running-a-celestia-node)
   - [Installation](#installation)
+  - [Understanding config.toml](#understanding-configtoml)
+    - [[Core]](#core)
+    - [[P2P]](#p2p)
+      - [Bootstrap](#bootstrap)
+      - [Mutual Peers](#mutual-peers)
+    - [[Services]](#services)
+      - [TrustedHash and TrustedPeer](#trustedhash-and-trustedpeer)
   - [Full Node Configuration](#full-node-configuration)
     - [Getting trusted hash](#getting-trusted-hash)
     - [Running full node](#running-full-node)
@@ -21,6 +28,26 @@ Make sure that you have `git` and `golang` installed
 git clone https://github.com/celestiaorg/celestia-node.git
 make install
 ```
+
+## Understanding config.toml
+After initialisation, for any type of node, you will find a `config.toml`. Let's break down some of the most used sections
+### [Core]
+This section is needed for the Celestia Full Node. By default, `Remote = false`. Still for devnet, we are going to use the remote core option and this can also be set
+by the command line flag `--core.remote` 
+
+### [P2P]
+#### Bootstrap
+By default, the `Bootstrapper = false` and the `BootstrapPeers` is empty. You do need to activate this section and add bootstrap peers in order to bootstrap your node
+
+#### Mutual Peers
+The purpose of this config is to set up a bidirectional communication. This is usually the case for Celestia Full Nodes. In addition, you need to change the field 
+`PeerExchange` from false to true
+
+### [Services]
+#### TrustedHash and TrustedPeer
+TrustedHash is needed to properly initialise Celestia Full Node with the active `Remote` Core Client. Celestia Light Node needs to be initialised with the trusted hash, too.
+TrustedPeer is the most crucial field to be filled for correct Celestia Light Node execution. Any Celestia Full Node can be a trusted peer for the Light one. However, the Light node
+by design can not be a trusted peer for another Light Node.
 
 
 ## Full Node Configuration
